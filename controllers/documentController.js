@@ -10,7 +10,7 @@ exports.uploadDocument = async (req, res) => {
             return res.status(400).json({ error: 'No file uploaded' })
         }
 
-        // const parsed = await parseFile(req.file)
+        const parsed = await parseFile(req.file)
         // console.log('[uploadDocument] parseFile returned:', {
         //     textLength: parsed.textContent.length,
         //     fileType: parsed.fileType,
