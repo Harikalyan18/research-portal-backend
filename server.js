@@ -9,14 +9,12 @@ connectDB()
 
 const app = express()
 
+const allowedOrigins = ['http://localhost:3000'];
+if (process.env.APP_URL) {
+    allowedOrigins.push(process.env.APP_URL);
+}
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
-app.use(cors({
-    origin: [
-        'http://localhost:3000',
-        'https://your-frontend.vercel.app' // replace after frontend deploy
-    ],
-    credentials: true
-}));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
