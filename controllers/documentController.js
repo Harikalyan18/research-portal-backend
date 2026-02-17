@@ -1,8 +1,6 @@
 const Document = require('../models/Document')
 const { parseFile } = require('../services/fileParser')
 const { analyzeEarningsCall } = require('../services/openRouterService')
-// const { analyzeEarningsCall } = require('../services/geminiService')
-
 
 exports.uploadDocument = async (req, res) => {
     try {
@@ -53,13 +51,13 @@ exports.analyzeDocument = async (req, res) => {
 
         document.status = 'processing'
         await document.save()
-
+        console.log('Status set to processing');
         const analysis = await analyzeEarningsCall(document.textContent)
-
+        console.log('AI analysis received, length:', JSON.stringify(analysis).length);
         document.analysisResult = analysis
         document.status = 'completed'
         await document.save()
-
+        console.log('Analysis saved to database for document:', document._id);
         res.json({ result: analysis })
     } catch (error) {
         await Document.findByIdAndUpdate(req.params.documentId, { status: 'failed' })
